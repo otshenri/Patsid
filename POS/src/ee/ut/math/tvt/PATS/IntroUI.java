@@ -12,14 +12,14 @@ import javax.swing.*;
 // Create a simple GUI window 
 public class IntroUI { 
 	
-	String name;
-	String member1;
-	String member2;
-	String member3;
-	String teamname;
-	String leader;
-	String leadermail;
-	
+	 String name;
+	 String member1;
+	 String member2;
+	 String member3;
+	 String teamname;
+	 String leader;
+	 String leadermail;
+	 String version;
 	
 	public IntroUI(String name) {
 		super();
@@ -30,7 +30,7 @@ public class IntroUI {
 		 
 		public void getPropValues() throws IOException {
 	 
-			String result = "";
+			
 			Properties prop = new Properties();
 			String propFileName = "application.properties";
 	 
@@ -40,16 +40,22 @@ public class IntroUI {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 	 
-			Date time = new Date(System.currentTimeMillis());
-	 
-			// get the property value and print it out
 			
-			String member1 = prop.getProperty("team.member1");
-			String member2 = prop.getProperty("team.member2");
-			String member3 = prop.getProperty("team.member3");
-			String teamname = prop.getProperty("team.name");
-			String leader = prop.getProperty("team.leader");;
-			String leadermail= prop.getProperty("team.leaderemail");;
+	 
+			// get the property value and save it to strings
+			
+			member1 = prop.getProperty("team.member1");
+			member2 = prop.getProperty("team.member2");
+			member3 = prop.getProperty("team.member3");
+			teamname = prop.getProperty("team.name");
+			leader = prop.getProperty("team.leader");;
+			leadermail= prop.getProperty("team.leaderemail");;
+			propFileName = "version.properties";
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			prop.load(inputStream);
+			version = prop.getProperty("build.number");
+			
+			
 	 
 			
 		}
@@ -58,18 +64,34 @@ public class IntroUI {
 	protected void start() {  
 		try {
 			getPropValues();
+			System.out.println(teamname);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Create and set up the window.        
-		JFrame frame = new JFrame("Simple GUI");
+		JFrame frame = new JFrame("teamname");
 		frame.setTitle(teamname);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
-		JLabel textLabel = new JLabel("I'm a label in the window",SwingConstants.CENTER);        
-		//label3 = new JLabel();
-		textLabel.setPreferredSize(new Dimension(300, 100));        
-		frame.getContentPane().add(textLabel, BorderLayout.CENTER);         
+		frame.setSize(500,300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		JLabel textlabel2 = new JLabel("Teamm: "+teamname);
+		JLabel textlabel1 = new JLabel("Members: "+member1+", "+member2+", "+member3);      
+		JLabel textlabel3 = new JLabel("Leader: " + leader+" ("+leadermail+")");
+		JLabel textlabel4 = new JLabel("Version: "+version);
+		ImageIcon image = new ImageIcon("res/logo.jpg");
+		JLabel imageLabel = new JLabel(image);
+		 
+		Container konteiner = frame.getContentPane();
+		konteiner.setLayout(new BoxLayout(konteiner, BoxLayout.PAGE_AXIS));
+		konteiner.add(imageLabel);
+		konteiner.add(textlabel1);
+		konteiner.add(textlabel2);
+		konteiner.add(textlabel3);
+		konteiner.add(textlabel4);
+		
+		
+		
+		//frame.getContentPane().add(imageLabel, BorderLayout.CENTER);         
 		//Display the window.        
 		frame.setLocationRelativeTo(null);        
 		frame.pack();       
