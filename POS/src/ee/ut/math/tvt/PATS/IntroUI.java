@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;   
 
 // Create a simple GUI window 
-public class IntroUI extends JFrame{ 
+public class IntroUI { 
 	
 	String name;
 	
