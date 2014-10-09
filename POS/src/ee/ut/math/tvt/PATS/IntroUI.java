@@ -3,12 +3,11 @@ package ee.ut.math.tvt.PATS;
 import java.awt.*;  
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.Properties;
 
 import javax.swing.*;   
-
-import org.omg.CORBA.portable.InputStream;
 
 // Create a simple GUI window 
 public class IntroUI { 
@@ -35,7 +34,7 @@ public class IntroUI {
 			Properties prop = new Properties();
 			String propFileName = "application.properties";
 	 
-			InputStream inputStream = (InputStream) getClass().getClassLoader().getResourceAsStream(propFileName);
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 			prop.load(inputStream);
 			if (inputStream == null) {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
