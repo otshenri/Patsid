@@ -7,14 +7,14 @@ import javax.swing.*;
 // Create a simple GUI window 
 public class IntroUI extends JFrame{ 
 	
-	static String name;
+	String name;
 	
 	public IntroUI(String name) {
 		super();
 		this.name = name;
 	}
 
-	protected static void start() {        
+	protected void start() {        
 		//Create and set up the window.        
 		JFrame frame = new JFrame("Simple GUI");
 		frame.setTitle(name);
