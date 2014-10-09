@@ -21,6 +21,7 @@ public class IntroUI {
 	String leader;
 	String leadermail;
 	
+	
 	public IntroUI(String name) {
 		super();
 		this.name = name;
