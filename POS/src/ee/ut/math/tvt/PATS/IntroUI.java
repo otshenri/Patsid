@@ -1,13 +1,23 @@
 package ee.ut.math.tvt.PATS;
 
 import java.awt.*;  
+
 import javax.swing.*;   
 
 // Create a simple GUI window 
-public class IntroUI {     
-	protected static void createWindow() {        
+public class IntroUI extends JFrame{ 
+	
+	static String name;
+	
+	public IntroUI(String name) {
+		super();
+		this.name = name;
+	}
+
+	protected static void start() {        
 		//Create and set up the window.        
-		JFrame frame = new JFrame("Simple GUI");       
+		JFrame frame = new JFrame("Simple GUI");
+		frame.setTitle(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
 		JLabel textLabel = new JLabel("I'm a label in the window",SwingConstants.CENTER);        
 		
