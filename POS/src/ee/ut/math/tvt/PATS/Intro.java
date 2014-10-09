@@ -1,8 +1,13 @@
 package ee.ut.math.tvt.PATS;
 
-public class Intro extends IntroUI{
-	public static void main(String[] args) {        
-		createWindow();
+public class Intro {
+	
+	static IntroUI intro;
+	public static void main(String[] args) {  
+		
+	 intro = new IntroUI ("Intro Window");
+	 intro.start();
 	}
+	
 
 }
