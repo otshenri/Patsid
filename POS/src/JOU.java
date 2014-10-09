@@ -1,4 +1,0 @@
-//minemunni
-public class JOU {
-
-}
