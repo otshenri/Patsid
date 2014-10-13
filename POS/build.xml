@@ -8,6 +8,11 @@
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="conf.dir" value="${basedir}/etc"/>
 	<property name="doc.dir" value="${build.dir}/doc"/>
+	
+	<property file="application.properties"/>
+	<loadproperties>
+		<file file="application.properties"/>
+	</loadproperties>
 
 	<!-- Definitions of classpath variants used for different tasks -->
 
@@ -34,6 +39,7 @@
 
 	<target name="run" depends="build" description="Run the application">
 		<java classname="ee.ut.math.tvt.PATS.Intro"  classpathref="test.classpath" fork="yes" />
+		
 	</target>
 
 	<target name="build" description="Build the system">
@@ -88,5 +94,41 @@
 			</git>
 			<git command="push" />
 		</target>
+	<!-- Create JAR file in the folder build/jar with all classes, 
+				two property files and other components -->
+		<target name="dist" depends="build" description="Build project to JAR">
+			<propertyfile
+				file="version.properties"
+				jdkproperties="true"
+				comment="Version properties">
+				<entry  key="build.revision.number" type="int" default="0" operation="+"/>
+				<entry  key="build.major.number" type="int" default="0" />
+				<entry  key="build.minor.number" type="int" default="0" />
+				</propertyfile>
+			<loadproperties>
+				<file file="version.properties"/>
+			</loadproperties>
+			<propertyfile 
+				file="version.properties"
+				jdkproperties="true">
+				<entry  key="build.number" type="string" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+			</propertyfile>
+			<mkdir dir="${build.jar.dir}"/>
+			<jar destfile="${build.jar.dir}/${team.name}.jar">
+				<fileset dir="${build.classes.dir}"/>
+				<fileset dir="${basedir}/" includes="*.properties"/>
+				<fileset dir="${conf.dir}"/>
+				<zipfileset includes="**/*.class" src="lib/log4j-1.2.17.jar"/>
+				<manifest>
+					<attribute name="Main-Class" 
+						value="ee.ut.math.tvt.PATS.Intro"/>
+				</manifest>
+			</jar>
+		</target>
+		<target name="jrun" depends="dist" description="Builds and runs JAR file">
+			<java jar="${build.jar.dir}/${team.name}.jar" fork="yes"/>
+		</target>
+
+
 
 </project>
