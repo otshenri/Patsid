@@ -11,12 +11,24 @@
 
 	<!-- Definitions of classpath variants used for different tasks -->
 
-	<path id="compile.classpath">
-		<fileset dir="lib">
-			<include name="*.jar"/>
-		</fileset>
-	</path>
-
+		<path id="compile.classpath">
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+		
+		<path id="test.classpath">
+			<pathelement location="${build.classes.dir}"/>
+			<!-- configuration -->
+			<pathelement location="${conf.dir}"/>
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+			<pathelement location="${basedir}"/>
+			<fileset dir="">
+				<include name="*.properties"/>
+			</fileset>
+		</path>
 	<!-- Definitions of runnable ant targets.
          Run them from the command line by executing "ant [targetname]"  -->
 
