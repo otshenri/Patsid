@@ -64,28 +64,32 @@ public class IntroUI {
 	protected void start() {  
 		try {
 			getPropValues();
-			System.out.println(teamname);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Create and set up the window.        
 		JFrame frame = new JFrame("teamname");
-		frame.setTitle(teamname);
+		frame.setTitle("Intro");
 		frame.setSize(500,300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		JLabel textlabel2 = new JLabel("Teamm: "+teamname);
+		JLabel textlabel2 = new JLabel("Team: "+teamname);
 		JLabel textlabel1 = new JLabel("Members: "+member1+", "+member2+", "+member3);      
 		JLabel textlabel3 = new JLabel("Leader: " + leader+" ("+leadermail+")");
 		JLabel textlabel4 = new JLabel("Version: "+version);
 		ImageIcon image = new ImageIcon("res/logo.jpg");
 		JLabel imageLabel = new JLabel(image);
-		 
+		imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		textlabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		textlabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		textlabel3.setAlignmentX(Component.CENTER_ALIGNMENT);
+		textlabel4.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Container konteiner = frame.getContentPane();
 		konteiner.setLayout(new BoxLayout(konteiner, BoxLayout.PAGE_AXIS));
 		konteiner.add(imageLabel);
-		konteiner.add(textlabel1);
 		konteiner.add(textlabel2);
+		konteiner.add(textlabel1);
 		konteiner.add(textlabel3);
 		konteiner.add(textlabel4);
 		

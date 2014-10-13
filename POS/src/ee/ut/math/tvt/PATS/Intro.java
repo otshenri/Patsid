@@ -12,7 +12,8 @@ public class Intro {
 	public static void main(String[] args) {  
 		final Logger LOGGER = Logger.getLogger(Intro.class);
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(Calendar.getInstance().getTime());
-		LOGGER.info("application start -" + timeStamp);    
+		
+		LOGGER.info("Class Intro start -" + timeStamp);    
 		
 		
 		intro = new IntroUI ("Intro Window");
