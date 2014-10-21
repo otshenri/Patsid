@@ -63,36 +63,7 @@
 		<delete dir="${build.dir}"/>
 	</target>
 	
-	<!-- Git commit2 -->
-	<macrodef name="git">
-			<attribute name="command" />
-			<attribute name="dir" default="" />
-			<element name="args" optional="true" />
-			<sequential>
-				<echo message="git @{command}" />
-				<exec executable="git" dir="@{dir}">
-					<arg value="@{command}" />
-					<args/>
-				</exec>
-			</sequential>
-		</macrodef>
-	 
-		<target name="version" description="Commits all changes to version git">
-			<input message="Commit message" addproperty="commit-message" />
-			
-			<echo message="Commiting all changes with message ${commit-message}" />
-			<git command="add">
-				<args>
-					<arg value="." />
-				</args>
-			</git>
-			<git command="commit">
-				<args>
-					<arg value="-am ${commit-message}" />
-				</args>
-			</git>
-			<git command="push" />
-		</target>
+	
 	<!-- Create JAR file in the folder build/jar with all classes, 
 				two property files and other components -->
 		<target name="dist" depends="build" description="Build project to JAR">
@@ -127,7 +98,77 @@
 		<target name="jrun" depends="dist" description="Builds and runs JAR file">
 			<java jar="${dist.dir}/${team.name}.jar" fork="yes"/>
 		</target>
-
+		
+	<!-- git macro -->
+		<macrodef name="git">
+			<attribute name="command" />
+			<attribute name="dir" default="" />
+			<element name="args" optional="true" />
+			<sequential>
+				<echo message="git @{command}" />
+					<exec executable="git" dir="@{dir}">
+					<arg value="@{command}" />
+					<args/>
+				</exec>
+			</sequential>
+		</macrodef>	
+		
+		<!-- Commits and pushes changes to git -->
+		<target name="git_commit" description="Commits and pushes all changes git">
+			<input message="Commit message" addproperty="commit-message" />
+			<input message="Github username" addproperty="git_user" />
+			<input message="Github password" addproperty="git_pass" />
+			
+			<echo message="Commiting all changes with message ${commit-message}" />
+			
+			<git command="add">
+				<args>
+					<arg value="-A" />
+				</args>
+			</git>
+			
+			<git command="commit">
+				<args>
+					<arg value="-am ${commit-message}" />
+				</args>
+			</git>
+			
+			<git command="push" >
+				<args>
+					<arg value="https://${git_user}:${git_pass}@github.com/otshenri/TEST.git"/>
+				</args>
+			</git>
+		</target>
+		
+		<!-- Pulls from git -->
+		<target name="git_pull" description="Pulls from git">
+			<git command="pull"/>
+		</target>	
+		
+		<!-- Creates tag to git -->
+		<target name="git_tag" description="Creates tag to git">
+			<input message="Tag name" addproperty="tag-name" />
+			<input message="Comment" addproperty="tag-comment" />
+			<input message="Github username" addproperty="git_user" />
+			<input message="Github password" addproperty="git_pass" />
+			
+			<echo message="Adding tag '${tag-name}'" />
+			
+			<git command="tag">
+				<args>
+					<arg value="-a" />
+					<arg value="${tag-name}" />
+					<arg value="-m ${tag-comment}" />
+				</args>
+			</git>
+			
+			<git command="push" >
+				<args>
+					<arg value="--tags" />
+					<arg value="https://${git_user}:${git_pass}@github.com/otshenri/TEST.git"/>
+				</args>
+			</git>
+		</target>
 
 
 </project>
