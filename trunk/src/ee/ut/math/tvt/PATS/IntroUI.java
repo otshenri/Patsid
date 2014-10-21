@@ -23,6 +23,7 @@ public class IntroUI {
 	String leader;
 	String leadermail;
 	String version;
+	JFrame frame = new JFrame("Intro");
 
 	public IntroUI(String name) {
 		super();
@@ -69,7 +70,7 @@ public class IntroUI {
 			e.printStackTrace();
 		}
 		// Create and set up the window.
-		JFrame frame = new JFrame("teamname");
+		
 		frame.setTitle("Intro");
 		frame.setSize(500, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +101,15 @@ public class IntroUI {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	public void setVisible(boolean Boolean){
+		frame.setVisible(true);
+		
+	}
 
+	public void setAlwaysOnTop(boolean Boolean){
+		frame.setAlwaysOnTop(Boolean);
+	}
 	
 
 }
