@@ -99,7 +99,7 @@ public class IntroUI {
 		// Display the window.
 		frame.setLocationRelativeTo(null);
 		frame.pack();
-		frame.setVisible(true);
+		//frame.setVisible(true);
 	}
 	
 	public void setVisible(boolean Boolean){
