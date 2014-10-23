@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.panels;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,10 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.NoSuchElementException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -170,8 +173,17 @@ public class PurchaseItemPanel extends JPanel {
             } catch (NumberFormatException ex) {
                 quantity = 1;
             }
-            model.getCurrentPurchaseTableModel()
+            int quant1 = Integer.parseInt(quantityField.getText());
+            int q1 = stockItem.getQuantity();
+            if (quant1 > q1){
+            	final JPanel panel = new JPanel();
+            	JOptionPane.showMessageDialog(panel, "Not enough items in warehouse!", "Warning",
+            	        JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+            	model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
+            }
         }
     }
 
