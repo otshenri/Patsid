@@ -2,24 +2,29 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
  * labelled "Point-of-sale" in the menu).
  */
-public class PurchaseTab {
+public class PurchaseTab extends PurchaseInfoTableModel{
 
   private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
@@ -162,8 +167,23 @@ public class PurchaseTab {
     }
   }
 
-
+  /*
+   * When user confirms his order, there should appear an additional screen that:
+will show the total sum of the order.
+will have a field to enter the payment amount.
+will show the change amount (tagastusraha).
+will have the buttons to accept or cancel the payment. 
+If the payment is accepted then order should be accepted and saved. 
+If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
+   */
   /** Event handler for the <code>submit purchase</code> event. */
+  
+  //int summa = item.getSum();
+  int change;
+  Object[] options = {"Yes, please",
+  "No way!"};
+  
+  
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
     try {
@@ -176,6 +196,18 @@ public class PurchaseTab {
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
+    Object[] possibilities ={"confirm","cancel"};
+    String s = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Total",
+                        "Payment faggot",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        possibilities, null
+                        );
+
+  
+   
   }
 
 
