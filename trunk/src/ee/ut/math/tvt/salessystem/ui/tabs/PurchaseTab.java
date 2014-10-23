@@ -196,14 +196,14 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
-    Object[] possibilities ={"confirm","cancel"};
+  
     String s = (String)JOptionPane.showInputDialog(
                         null,
                         "Total",
                         "Payment faggot",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
-                        possibilities, null
+                        null, null
                         );
 
   
