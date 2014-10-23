@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.swing.table.AbstractTableModel;
 
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
  * Generic table model implementation suitable for extending.
@@ -18,6 +19,7 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
 
     protected List<T> rows;
     protected final String[] headers;
+    String neeger;
 
     public SalesSystemTableModel(final String[] headers) {
         this.headers = headers;
@@ -54,6 +56,14 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     public T getItemById(final long id) {
         for (final T item : rows) {
             if (item.getId() == id)
+                return item;
+        }
+        throw new NoSuchElementException();
+    }
+    
+    public T getItemByName(String name) {
+        for (final T item : rows) {
+            if (((StockItem) item).getName().equals(name))
                 return item;
         }
         throw new NoSuchElementException();

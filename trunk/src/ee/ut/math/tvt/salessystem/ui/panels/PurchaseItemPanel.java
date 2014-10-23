@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,9 +36,9 @@ public class PurchaseItemPanel extends JPanel {
     private JTextField quantityField;
     private JTextField nameField;
     private JTextField priceField;
-
+    String neeger;
     private JButton addItemButton;
-
+    private JComboBox komboboks;
     // Warehouse model
     private SalesSystemModel model;
 
@@ -89,7 +90,15 @@ public class PurchaseItemPanel extends JPanel {
         quantityField = new JTextField("1");
         nameField = new JTextField();
         priceField = new JTextField();
-
+        
+        //KOMBOBOKS RUULIB
+        komboboks = new JComboBox();
+        fillCBox();
+        komboboks.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                        fillDialogFields();    
+                        }
+                });
         // Fill the dialog fields if the bar code text field loses focus
         barCodeField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -102,6 +111,7 @@ public class PurchaseItemPanel extends JPanel {
 
         nameField.setEditable(false);
         priceField.setEditable(false);
+        komboboks.setEditable(false);
 
         // == Add components to the panel
 
@@ -114,8 +124,8 @@ public class PurchaseItemPanel extends JPanel {
         panel.add(quantityField);
 
         // - name
-        panel.add(new JLabel("Name:"));
-        panel.add(nameField);
+        panel.add(new JLabel("Product:"));
+        panel.add(komboboks);
 
         // - price
         panel.add(new JLabel("Price:"));
@@ -133,19 +143,41 @@ public class PurchaseItemPanel extends JPanel {
 
         return panel;
     }
+    public void fillCBox(){
+        komboboks.removeAllItems();
+        komboboks.addItem(null);
+        for(int i=0; i<model.getWarehouseTableModel().getRowCount(); i++){
+                komboboks.addItem( (String) (model.getWarehouseTableModel().getValueAt(i, 1)));
+                }
+    }
+   
+    private StockItem getStockItemByName() {
+        try {
+        String name = (String)komboboks.getSelectedItem();
+        return model.getWarehouseTableModel().getItemByName(name);
+        } catch (NumberFormatException ex) {
+        return null;
+        } catch (NoSuchElementException ex) {
+        return null;
+        }
+    }
 
     // Fill dialog with data from the "database".
     public void fillDialogFields() {
-        StockItem stockItem = getStockItemByBarcode();
-
+        StockItem stockItem = getStockItemByName();
         if (stockItem != null) {
-            nameField.setText(stockItem.getName());
-            String priceString = String.valueOf(stockItem.getPrice());
-            priceField.setText(priceString);
-        } else {
-            reset();
+                quantityField.setText("");
+                String barCodeString = String.valueOf(stockItem.getId());
+                barCodeField.setText(barCodeString);
+                String priceString = String.valueOf(stockItem.getPrice());
+                priceField.setText(priceString);
+                addItemButton.setEnabled(true);
+                }
+        else {
+                fillCBox();
+                reset();
+                }
         }
-    }
 
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
@@ -195,6 +227,7 @@ public class PurchaseItemPanel extends JPanel {
         this.addItemButton.setEnabled(enabled);
         this.barCodeField.setEnabled(enabled);
         this.quantityField.setEnabled(enabled);
+        this.komboboks.setEnabled(enabled);
     }
 
     /**
