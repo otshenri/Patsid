@@ -178,8 +178,9 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
    */
   /** Event handler for the <code>submit purchase</code> event. */
   
-  //int summa = item.getSum();
+  int summa =0;// item.getSum();
   int change;
+  int a;
   Object[] options = {"Yes, please",
   "No way!"};
   
@@ -199,12 +200,17 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
   
     String s = (String)JOptionPane.showInputDialog(
                         null,
-                        "Total",
+                        "Total" + summa,
                         "Payment faggot",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         null, null
                         );
+    if ((s != null) && (s.length() > 0)) {
+    	int x =Integer.parseInt(s);
+        setChange(summa - x);
+        return;
+    }
 
   
    
@@ -216,7 +222,17 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
    *     when called.
    */
 
-  // switch UI to the state that allows to proceed with the purchase
+  public int getChange() {
+	return change;
+}
+
+
+public void setChange(int change) {
+	this.change = change;
+}
+
+
+// switch UI to the state that allows to proceed with the purchase
   private void startNewSale() {
     purchasePane.reset();
 
