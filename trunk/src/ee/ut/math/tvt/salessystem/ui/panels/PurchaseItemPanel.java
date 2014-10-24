@@ -200,12 +200,25 @@ public class PurchaseItemPanel extends JPanel {
         StockItem stockItem = getStockItemByBarcode();
         if (stockItem != null) {
             int quantity;
+            int quant1 = 0;
+            boolean itemInStock = false;
             try {
                 quantity = Integer.parseInt(quantityField.getText());
             } catch (NumberFormatException ex) {
                 quantity = 1;
             }
-            int quant1 = Integer.parseInt(quantityField.getText());
+            for (int i=0; i<model.getCurrentPurchaseTableModel().getRows().size(); i++){
+            	String name = model.getCurrentPurchaseTableModel().getRows().get(i).getName();
+            	if (name.equals(stockItem.getName())){
+            		quant1 = quantity + model.getCurrentPurchaseTableModel().getRows().get(i).getQuantity();
+            		itemInStock = true;
+            	}
+            	
+            }
+            if (!itemInStock){
+            	 quant1 = quantity;
+            }
+            
             int q1 = stockItem.getQuantity();
             if (quant1 > q1){
             	final JPanel panel = new JPanel();

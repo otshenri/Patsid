@@ -18,7 +18,10 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     private static final long serialVersionUID = 1L;
 
     protected List<T> rows;
-    protected final String[] headers;
+    
+
+
+	protected final String[] headers;
     String neeger;
 
     public SalesSystemTableModel(final String[] headers) {
@@ -82,6 +85,9 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
         rows.clear();
         rows.addAll(data);
     }
+    public List<T> getRows() {
+		return rows;
+	}
     
     
 }

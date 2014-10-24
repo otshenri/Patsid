@@ -66,18 +66,19 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
     	for (int i = 0; i<rows.size(); i++){
     		if (rows.get(i).getName().equals(item.getName())){
     			rows.get(i).setQuantity(rows.get(i).getQuantity()+item.getQuantity());
-    			log.debug("Changed item quantity by "+item.getQuantity());
+    			log.info("Changed item quantity by "+item.getQuantity());
     			itemInStock = true;
     		}
     		
     	}
     	if (!itemInStock){
     		 rows.add(item);
-    	     log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
+    	     log.info("Added " + item.getName() + " quantity of " + item.getQuantity());
     	}
        
         fireTableDataChanged();
     }
+    
     //TESTI MOTTES AINULT
 	public String test() {
 		for (int i = 0; i<rows.size(); i++){
