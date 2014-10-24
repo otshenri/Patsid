@@ -190,7 +190,10 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 	  		setChange(summa - x);
 	  		System.out.println(x);
 	  		JOptionPane.showMessageDialog(null,"change "+ x);
-	  		this.clear();
+	  		System.out.println(model.getCurrentPurchaseTableModel().test());
+	  		model.getCurrentPurchaseTableModel().clear();
+	  		
+	  		
 	  		endSale();
 	  		;
 }
