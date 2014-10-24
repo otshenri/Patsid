@@ -170,7 +170,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
   
   /** Event handler for the <code>submit purchase</code> event. */
   
-  int summa =0;// item.getSum();<-- vaja tööle saada
+  int summa =0;// 
   int change;
   int a;
   /*Object[] options = {"Yes, please",
@@ -190,6 +190,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 	  		setChange(summa - x);
 	  		System.out.println(x);
 	  		JOptionPane.showMessageDialog(null,"change "+ x);
+	  		this.clear();
 	  		endSale();
 	  		;
 }
