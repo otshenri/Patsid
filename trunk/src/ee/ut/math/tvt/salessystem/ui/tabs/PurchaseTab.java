@@ -209,6 +209,8 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
     if ((s != null) && (s.length() > 0)) {
     	int x =Integer.parseInt(s);
         setChange(summa - x);
+        System.out.println(x);
+        JOptionPane.showMessageDialog(null,"change "+ x);
         return;
     }
 
