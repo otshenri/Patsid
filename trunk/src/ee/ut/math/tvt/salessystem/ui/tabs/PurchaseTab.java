@@ -39,6 +39,8 @@ public class PurchaseTab extends PurchaseInfoTableModel{
   private PurchaseItemPanel purchasePane;
 
   private SalesSystemModel model;
+  
+  double change;
 
 
   public PurchaseTab(SalesDomainController controller,
@@ -170,39 +172,54 @@ public class PurchaseTab extends PurchaseInfoTableModel{
   
   /** Event handler for the <code>submit purchase</code> event. */
   
-  int summa =0;// 
-  int change;
-  int a;
+
+  
   /*Object[] options = {"Yes, please",
   "No way!"};*/
   // tekitab paned ja peaks arvutama vahetusraha ja salvestama ostu....
   public void Payment() {
+	  double summa; 
+	  double x;
+	  boolean outOfRek = false;
+	  summa = getTotalSum(); 
 	  	String s = (String)JOptionPane.showInputDialog(
 	  			null,
-	  			"Total" + summa,
-	  			"Payment faggot",
+	  			"Total: " + summa,
+	  			"Payment",
 	  			JOptionPane.PLAIN_MESSAGE,
 	  			null,
 	  			null, null
 	  			);
 	  	if ((s != null) && (s.length() > 0)) {
-	  		int x =Integer.parseInt(s);
-	  		setChange(summa - x);
-	  		System.out.println(x);
-	  		JOptionPane.showMessageDialog(null,"change "+ x);
-	  		System.out.println(model.getCurrentPurchaseTableModel().test());
-	  		model.getCurrentPurchaseTableModel().clear();
+	  		try {
+	  			x =Double.parseDouble(s);
+	  			if (x < summa){
+	  				log.error("Not enough muneyyy");
+	  				outOfRek = true;
+	  				Payment();
+	  			}
+	  		}
+	  		catch (IllegalArgumentException ex){
+	  			log.error("That is not valid amount");
+	  			x = 0;
+	  			Payment();
+	  			outOfRek = true;
+	  			
+	  		}
+	  		if (!outOfRek){
+	  			setChange(x - summa);
+		  		JOptionPane.showMessageDialog(null,"Change: "+change+" jeeni");
+		  		model.getCurrentPurchaseTableModel().clear();
+		  		endSale();	  			
+	  		}
 	  		
-	  		
-	  		endSale();
-	  		;
 }
   }
   
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
     try {
-      log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
+      log.info("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
       );
@@ -224,12 +241,12 @@ public class PurchaseTab extends PurchaseInfoTableModel{
    *     when called.
    */
 
-  public int getChange() {
+  public double getChange() {
 	return change;
 }
 
 
-public void setChange(int change) {
+public void setChange(double change) {
 	this.change = change;
 }
 
@@ -298,6 +315,18 @@ public void setChange(int change) {
     gc.gridwidth = GridBagConstraints.RELATIVE;
 
     return gc;
+  }
+  public double getTotalSum(){
+	  double sum = 0;
+	  if (!(model.getCurrentPurchaseTableModel().getRows()==null)){
+		  
+		  for (int i =0; i<model.getCurrentPurchaseTableModel().getRows().size(); i++){
+			  sum = sum + model.getCurrentPurchaseTableModel().getRows().get(i).getSum();
+		  }		  
+	  }
+	  
+	  return sum;
+	  
   }
 
 }
