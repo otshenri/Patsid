@@ -167,23 +167,33 @@ public class PurchaseTab extends PurchaseInfoTableModel{
     }
   }
 
-  /*
-   * When user confirms his order, there should appear an additional screen that:
-will show the total sum of the order.
-will have a field to enter the payment amount.
-will show the change amount (tagastusraha).
-will have the buttons to accept or cancel the payment. 
-If the payment is accepted then order should be accepted and saved. 
-If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
-   */
+  
   /** Event handler for the <code>submit purchase</code> event. */
   
-  int summa =0;// item.getSum();
+  int summa =0;// item.getSum();<-- vaja tööle saada
   int change;
   int a;
-  Object[] options = {"Yes, please",
-  "No way!"};
-  
+  /*Object[] options = {"Yes, please",
+  "No way!"};*/
+  // tekitab paned ja peaks arvutama vahetusraha ja salvestama ostu
+  public void Payment() {
+	  	String s = (String)JOptionPane.showInputDialog(
+	  			null,
+	  			"Total" + summa,
+	  			"Payment faggot",
+	  			JOptionPane.PLAIN_MESSAGE,
+	  			null,
+	  			null, null
+	  			);
+	  	if ((s != null) && (s.length() > 0)) {
+	  		int x =Integer.parseInt(s);
+	  		setChange(summa - x);
+	  		System.out.println(x);
+	  		JOptionPane.showMessageDialog(null,"change "+ x);
+	  		endSale();
+	  		;
+}
+  }
   
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
@@ -197,22 +207,8 @@ If the payment is canceled, then the screen should be closed/hided and the shopp
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
-  
-    String s = (String)JOptionPane.showInputDialog(
-                        null,
-                        "Total" + summa,
-                        "Payment faggot",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null, null
-                        );
-    if ((s != null) && (s.length() > 0)) {
-    	int x =Integer.parseInt(s);
-        setChange(summa - x);
-        System.out.println(x);
-        JOptionPane.showMessageDialog(null,"change "+ x);
-        return;
-    }
+    Payment();
+   
 
   
    
