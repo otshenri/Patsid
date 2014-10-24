@@ -175,7 +175,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
   int a;
   /*Object[] options = {"Yes, please",
   "No way!"};*/
-  // tekitab paned ja peaks arvutama vahetusraha ja salvestama ostu
+  // tekitab paned ja peaks arvutama vahetusraha ja salvestama ostu....
   public void Payment() {
 	  	String s = (String)JOptionPane.showInputDialog(
 	  			null,
