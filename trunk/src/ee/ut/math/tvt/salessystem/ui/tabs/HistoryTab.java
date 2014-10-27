@@ -165,7 +165,7 @@ public class HistoryTab {
 		item.getItems();
 		PurchaseInfoTableModel soldGoods = new PurchaseInfoTableModel();
 		for (SoldItem i : item.getItems()) {
-			System.out.println(i.toString());
+			
 			soldGoods.addItem(i);
 		}
 		JTable table = new JTable(soldGoods);

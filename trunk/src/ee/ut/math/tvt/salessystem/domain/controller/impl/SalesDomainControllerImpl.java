@@ -21,7 +21,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
-		throw new VerificationFailedException("Underaged!");
+		//throw new VerificationFailedException("Underaged!");
 		// XXX - Save purchase
 	}
 
@@ -49,7 +49,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         dataset.add(beer);
        
         
-        
+        //This one is not really necessary, initially we though that we have to save added items to 
+        //a file so that they would appear later on when relaunching the system
         ObjectInputStream ois;
         try {
                 ois = new ObjectInputStream(new FileInputStream("stockitems.data"));

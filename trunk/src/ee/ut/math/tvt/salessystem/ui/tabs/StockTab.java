@@ -170,7 +170,9 @@ public class StockTab{
           	if (rek == false){
           		
           		StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
-                ObjectOutputStream output;
+          		model.getWarehouseTableModel().addItem(uus);
+          		
+          		ObjectOutputStream output;
                 try {
                         output = new ObjectOutputStream(
                                     new FileOutputStream("stockitems.data"));

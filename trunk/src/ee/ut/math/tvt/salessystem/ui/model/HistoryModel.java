@@ -25,9 +25,9 @@ public class HistoryModel extends SalesSystemTableModel<HistoryItem> {
 	protected Object getColumnValue(HistoryItem item, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return item.getEndDate();
+			return item.getDate();
 		case 1:
-			return item.getEndDate();
+			return item.getTime();
 		case 2:
 			return item.getSum();
 		}
@@ -42,7 +42,7 @@ public class HistoryModel extends SalesSystemTableModel<HistoryItem> {
 	 */
 	public void addItem(final HistoryItem historyItem) {
 		rows.add(historyItem);
-		log.debug("Added new item: " + historyItem.getEndDate());
+		log.debug("Added new item: " + historyItem.getDate());
 		fireTableDataChanged();
 	}
 
@@ -55,8 +55,8 @@ public class HistoryModel extends SalesSystemTableModel<HistoryItem> {
 		buffer.append("\n");
 
 		for (final HistoryItem historyItem : rows) {
-			buffer.append(historyItem.getEndDate() + "\t");
-			buffer.append(historyItem.getEndDate() + "\t");
+			buffer.append(historyItem.getTime() + "\t");
+			buffer.append(historyItem.getDate() + "\t");
 			buffer.append(historyItem.getSum() + "\t");
 			buffer.append("\n");
 		}

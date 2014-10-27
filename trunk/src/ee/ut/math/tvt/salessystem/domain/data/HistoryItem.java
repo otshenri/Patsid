@@ -4,6 +4,9 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +19,8 @@ public class HistoryItem implements DisplayableItem, Serializable {
 
 	private static long nextId;
 	private long id;
-	private Date endDate;
-	private Date startDate;
+	private DateFormat time;
+	private DateFormat date;
 	private double sum;
 	private List<SoldItem> items;
 	private int state;
@@ -30,20 +33,24 @@ public class HistoryItem implements DisplayableItem, Serializable {
 		return this.items;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getDate() {
+		Date time2 = Calendar.getInstance().getTime();
+		String s = date.format(time2);
+		return s;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setDate(DateFormat date) {
+		this.date = date;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public String getTime() {
+		Date time2 = Calendar.getInstance().getTime();
+		String s = time.format(time2);
+		return s;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setTime(DateFormat time) {
+		this.time = time;
 	}
 
 	public double getSum() {
@@ -72,7 +79,8 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	 */
 	public HistoryItem(double sum, List<SoldItem> purchase) {
 		this.id = nextId++;
-		this.endDate = new Date();
+		this.time = new SimpleDateFormat("hh:mm a");
+		this.date = new SimpleDateFormat("dd-MM-yyyy");
 		this.sum = sum;
 		this.items = purchase;
 	}

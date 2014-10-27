@@ -221,6 +221,12 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 		  		HistoryItem hitem = new HistoryItem(summa, kloon );
 		  		model.getHistoryModel().addItem(hitem);
 		  		//System.out.println(model.getCurrentPurchaseTableModel().solditems.size());
+		  		for (SoldItem item: model.getCurrentPurchaseTableModel().solditems){
+		  			
+		  			int quant = model.getWarehouseTableModel().getItemById(item.getId()).getQuantity();
+		  			
+		  			model.getWarehouseTableModel().getItemById(item.getId()).setQuantity(quant-item.getQuantity());
+		  		}
 		  		model.getCurrentPurchaseTableModel().solditems.clear();
 		  		
 		  		endSale();	  			
