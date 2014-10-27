@@ -96,6 +96,7 @@ public class PurchaseItemPanel extends JPanel {
         fillCBox();
         komboboks.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                		
                         fillDialogFields();    
                         }
                 });
@@ -145,8 +146,9 @@ public class PurchaseItemPanel extends JPanel {
     }
     public void fillCBox(){
         komboboks.removeAllItems();
-        komboboks.addItem(null);
         for(int i=0; i<model.getWarehouseTableModel().getRowCount(); i++){
+        		
+
                 komboboks.addItem( (String) (model.getWarehouseTableModel().getValueAt(i, 1)));
                 }
     }
@@ -228,6 +230,7 @@ public class PurchaseItemPanel extends JPanel {
             else {
             	model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
+            	model.getCurrentPurchaseTableModel().solditems.add(new SoldItem(stockItem, quantity));
             }
         }
     }

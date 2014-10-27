@@ -1,7 +1,10 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.ui.model.HistoryModel;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
@@ -12,6 +15,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -194,7 +198,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 	  		try {
 	  			x =Double.parseDouble(s);
 	  			if (x < summa){
-	  				log.error("Not enough muneyyy");
+	  				log.error("Not enough money");
 	  				outOfRek = true;
 	  				Payment();
 	  			}
@@ -208,13 +212,23 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 	  		}
 	  		if (!outOfRek){
 	  			setChange(x - summa);
-		  		JOptionPane.showMessageDialog(null,"Change: "+change+" jeeni");
+		  		JOptionPane.showMessageDialog(null,"Change: "+change);
 		  		model.getCurrentPurchaseTableModel().clear();
+		  		ArrayList<SoldItem> kloon = new ArrayList<SoldItem>();
+		  		for (SoldItem item: model.getCurrentPurchaseTableModel().solditems){
+		  			kloon.add(item);
+		  		}
+		  		HistoryItem hitem = new HistoryItem(summa, kloon );
+		  		model.getHistoryModel().addItem(hitem);
+		  		//System.out.println(model.getCurrentPurchaseTableModel().solditems.size());
+		  		model.getCurrentPurchaseTableModel().solditems.clear();
+		  		
 		  		endSale();	  			
 	  		}
 	  		
 }
   }
+  
   
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
@@ -223,6 +237,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
       domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
       );
+      
       endSale();
       model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {

@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
  
+import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
  
@@ -10,6 +11,7 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
  
  
  
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
  
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -165,6 +168,7 @@ public class StockTab{
     	  	
 
           	if (rek == false){
+          		
           		StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
                 ObjectOutputStream output;
                 try {

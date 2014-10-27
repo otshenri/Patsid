@@ -9,6 +9,7 @@ import java.util.List;
 
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
@@ -47,6 +48,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         dataset.add(frankfurters);
         dataset.add(beer);
        
+        
+        
         ObjectInputStream ois;
         try {
                 ois = new ObjectInputStream(new FileInputStream("stockitems.data"));
@@ -69,4 +72,10 @@ public class SalesDomainControllerImpl implements SalesDomainController {
        
         return dataset;
 }
+
+	@Override
+	public List<HistoryItem> getHistoryItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
