@@ -133,6 +133,7 @@ public class StockTab{
   }
   
   public void addItemToFile(){
+	  boolean rek = false;
 	  JTextField name = new JTextField();
       JTextField description = new JTextField();
       JTextField price = new JTextField();
@@ -149,21 +150,39 @@ public class StockTab{
       int option = JOptionPane.showConfirmDialog(null, message, "Add item", JOptionPane.OK_CANCEL_OPTION);
      
       if (option == JOptionPane.OK_OPTION) {
-              StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
-              ObjectOutputStream output;
-            try {
-                    output = new ObjectOutputStream(
-                                new FileOutputStream("stockitems.data"));
-                    output.writeObject(uus);
+    	  
+    	  	if (id.getText().equals("") || name.getText().equals("") || description.equals("") || price.equals("") || quantity.equals("") ){
+    	  		System.out.println("Incorrect field data.");
+    	  		addItemToFile();
+    	  		rek = true;
+    	  	}
+    	  	if (!isInteger(quantity.getText()) || !isDouble(price.getText()) || !isInteger(id.getText())){
+    	  		System.out.println("Incorrect field data.");
+    	  		addItemToFile();
+    	  		rek = true;
+    	  	}
+    	  		
+    	  	
 
-                    output.close();
-            } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            }
+          	if (rek == false){
+          		StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
+                ObjectOutputStream output;
+                try {
+                        output = new ObjectOutputStream(
+                                    new FileOutputStream("stockitems.data"));
+                        output.writeObject(uus);
+
+                        output.close();
+                } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                }
+          	}
+          	
+    	  	  	
 
                    
              
@@ -173,5 +192,25 @@ public class StockTab{
       
 	  
   }
+  public static boolean isDouble(String s) {
+	    try { 
+	         
+	        Double.parseDouble(s);
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
+  public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	        
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
  
 }
