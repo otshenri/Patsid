@@ -123,48 +123,55 @@ public class StockTab{
   }
  
   public void addItemEventHandler() {
-          JTextField name = new JTextField();
-          JTextField description = new JTextField();
-          JTextField price = new JTextField();
-          JTextField quantity = new JTextField();
-          JTextField id = new JTextField();
-          Object[] message = {
-              "Product name:", name,
-              "Description:", description,
-              "Price", price,
-              "Quantity:", quantity,
-              "Id:", id
-          };
- 
-          int option = JOptionPane.showConfirmDialog(null, message, "Add item", JOptionPane.OK_CANCEL_OPTION);
          
-          if (option == JOptionPane.OK_OPTION) {
-                  StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
-                  ObjectOutputStream output;
-                try {
-                        output = new ObjectOutputStream(
-                                    new FileOutputStream("stockitems.data"));
-                        output.writeObject(uus);
- 
-                        output.close();
-                } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                }
- 
-                       
-                 
-          } else {
-              System.out.println("Adding item cancelled");
-          }
+	  addItemToFile();
 //          final JPanel panel = new JPanel();
 //          JOptionPane.showMessageDialog(panel, "Not enough items in warehouse!", "Warning",
 //                          JOptionPane.WARNING_MESSAGE);
 //          JTextFieldDemo test = new JTextFieldDemo();
 //          test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  }
+  
+  public void addItemToFile(){
+	  JTextField name = new JTextField();
+      JTextField description = new JTextField();
+      JTextField price = new JTextField();
+      JTextField quantity = new JTextField();
+      JTextField id = new JTextField();
+      Object[] message = {
+          "Product name:", name,
+          "Description:", description,
+          "Price", price,
+          "Quantity:", quantity,
+          "Id:", id
+      };
+
+      int option = JOptionPane.showConfirmDialog(null, message, "Add item", JOptionPane.OK_CANCEL_OPTION);
+     
+      if (option == JOptionPane.OK_OPTION) {
+              StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
+              ObjectOutputStream output;
+            try {
+                    output = new ObjectOutputStream(
+                                new FileOutputStream("stockitems.data"));
+                    output.writeObject(uus);
+
+                    output.close();
+            } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+
+                   
+             
+      } else {
+          System.out.println("Adding item cancelled");
+      }
+      
+	  
   }
  
 }

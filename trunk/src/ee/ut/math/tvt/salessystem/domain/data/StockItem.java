@@ -1,9 +1,11 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
+import java.io.Serializable;
+
 /**
  * Stock item. Corresponds to the Data Transfer Object design pattern.
  */
-public class StockItem implements Cloneable, DisplayableItem {
+public class StockItem implements Cloneable, DisplayableItem, Serializable {
 	
     private Long id;
 

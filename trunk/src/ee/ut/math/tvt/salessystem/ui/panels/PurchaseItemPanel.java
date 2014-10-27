@@ -232,7 +232,11 @@ public class PurchaseItemPanel extends JPanel {
         }
     }
 
-    /**
+    public SalesSystemModel getModel() {
+		return model;
+	}
+
+	/**
      * Sets whether or not this component is enabled.
      */
     @Override
