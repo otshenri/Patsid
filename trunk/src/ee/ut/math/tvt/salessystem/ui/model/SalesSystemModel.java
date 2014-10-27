@@ -19,7 +19,9 @@ public class SalesSystemModel {
 
     private final SalesDomainController domainController;
 
-    /**
+
+
+	/**
      * Construct application model.
      * @param domainController Sales domain controller.
      */
@@ -41,5 +43,8 @@ public class SalesSystemModel {
     public PurchaseInfoTableModel getCurrentPurchaseTableModel() {
         return currentPurchaseTableModel;
     }
+    public SalesDomainController getDomainController() {
+		return domainController;
+	}
     
 }
