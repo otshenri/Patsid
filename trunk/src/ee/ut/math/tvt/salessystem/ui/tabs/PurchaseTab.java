@@ -237,7 +237,7 @@ public class PurchaseTab extends PurchaseInfoTableModel{
   
   
   protected void submitPurchaseButtonClicked() {
-    log.info("Sale complete");
+    
     try {
       log.info("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
@@ -245,11 +245,14 @@ public class PurchaseTab extends PurchaseInfoTableModel{
       );
       
       endSale();
+      Payment();
       model.getCurrentPurchaseTableModel().clear();
+      log.info("Sale complete");
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
-    Payment();
+    
+    
    
 
   

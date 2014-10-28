@@ -31,24 +31,23 @@ public class Intro {
 			cui.run();
 		} else {
 
-			IntroUI introUI = new IntroUI("FEGIT");
+			IntroUI introUI = new IntroUI("INTRO");
 			introUI.start();
 			introUI.setVisible(true);
 			introUI.setAlwaysOnTop(true);
-			LOGGER.info("SUPERFEGIT");
+			
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
-			LOGGER.info("SUPERFEGIT2");
+			
 			introUI.setAlwaysOnTop(false);
 			try {
 				Thread.sleep(3000);
-				LOGGER.info("sleep over");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			introUI.setVisible(false);
 			ui.setVisible(true);
-			LOGGER.info("LoPP");
+			
 		}
 
 

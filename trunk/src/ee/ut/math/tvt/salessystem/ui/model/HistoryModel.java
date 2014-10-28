@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.NoSuchElementException;
@@ -34,12 +32,7 @@ public class HistoryModel extends SalesSystemTableModel<HistoryItem> {
 		throw new IllegalArgumentException("Column index out of range");
 	}
 
-	/**
-	 * Add new stock item to table. If there already is a stock item with same
-	 * id, then existing item's quantity will be increased.
-	 * 
-	 * @param stockItem
-	 */
+	//add new history item
 	public void addItem(final HistoryItem historyItem) {
 		rows.add(historyItem);
 		log.debug("Added new item: " + historyItem.getDate());

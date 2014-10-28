@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.io.Serializable;
@@ -71,11 +69,7 @@ public class HistoryItem implements DisplayableItem, Serializable {
 
 	/**
 	 * Constructor for HistoryItem
-	 * 
-	 * @param Sum
-	 *            of the transaction
-	 * @param Sold
-	 *            goods
+
 	 */
 	public HistoryItem(double sum, List<SoldItem> purchase) {
 		this.id = nextId++;
@@ -85,22 +79,13 @@ public class HistoryItem implements DisplayableItem, Serializable {
 		this.items = purchase;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ee.ut.math.tvt.salessystem.domain.data.DisplayableItem#getId()
-	 */
+	//kas neid vaja yldse praegu ?
 	@Override
 	public Long getId() {
 		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ee.ut.math.tvt.salessystem.domain.data.DisplayableItem#getName()
-	 */
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub

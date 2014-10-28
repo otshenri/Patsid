@@ -1,6 +1,4 @@
-/*
- *HistoryTab
- */
+
 
 
 package ee.ut.math.tvt.salessystem.ui.tabs;
@@ -35,11 +33,9 @@ import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
-/**
- * Encapsulates everything that has to do with the purchase tab (the tab
- * labelled "History" in the menu).
- */
-public class HistoryTab {
+
+//Vana hea history tab ...
+ public class HistoryTab {
 
 	// TODO - implement!
 	private SalesSystemModel model;
@@ -115,7 +111,7 @@ public class HistoryTab {
 		JTableHeader header = table.getTableHeader();
 		header.setReorderingAllowed(false);
 
-		// historyItemClicked(table);
+		
 
 		JScrollPane scrollPane = new JScrollPane(table);
 
