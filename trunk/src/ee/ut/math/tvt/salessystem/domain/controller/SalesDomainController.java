@@ -47,6 +47,8 @@ public interface SalesDomainController {
             throws VerificationFailedException;
 
 	public List<HistoryItem> getHistoryItems();
+	
+	public void endSession();
 
     
 }
