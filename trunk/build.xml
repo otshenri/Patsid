@@ -46,6 +46,9 @@
 			<fileset dir="">
 				<include name="*.properties"/>
 			</fileset>
+			<fileset dir="${lib.hibernate.dir}">
+				             <include name="*.jar"/>
+				        </fileset>
 		</path>
 	
 	<path id="run.classpath">

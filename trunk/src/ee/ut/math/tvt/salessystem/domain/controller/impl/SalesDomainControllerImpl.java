@@ -43,7 +43,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public List<StockItem> loadWarehouseState() {
         // XXX mock implementation
 		List<StockItem> dataset = new ArrayList();
-		//dataset = session.createQuery("from StockItem").list();
+		dataset = session.createQuery("from StockItem").list();
 
         StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
         StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);
