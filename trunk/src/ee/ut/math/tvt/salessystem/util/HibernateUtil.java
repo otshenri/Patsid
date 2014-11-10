@@ -16,6 +16,7 @@ public class HibernateUtil {
 
 	private static ServiceRegistry serviceRegistry;
 	public static final SessionFactory sessionFactory;
+	
 
 	static {
 		try {

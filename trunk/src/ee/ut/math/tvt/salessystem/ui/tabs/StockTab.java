@@ -171,6 +171,7 @@ public class StockTab{
           		
           		StockItem uus = new StockItem(Long.parseLong(id.getText()), name.getText(), description.getText(), Double.parseDouble(price.getText()), Integer.parseInt(quantity.getText()));
           		model.getWarehouseTableModel().addItem(uus);
+          		model.getDomainController().addToWarehouse(uus);
           		
           		ObjectOutputStream output;
                 try {

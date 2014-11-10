@@ -42,7 +42,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	@SuppressWarnings("unchecked")
 	public List<StockItem> loadWarehouseState() {
         // XXX mock implementation
-		List<StockItem> dataset = session.createQuery("from StockItem").list();
+		List<StockItem> dataset = new ArrayList();
+		//dataset = session.createQuery("from StockItem").list();
 
         StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
         StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);
@@ -79,6 +80,11 @@ public class SalesDomainControllerImpl implements SalesDomainController {
        
         return dataset;
 }
+	public void addToWarehouse(StockItem stockItem) {
+		session.getTransaction().begin();
+		session.save(stockItem);
+		session.getTransaction().commit();
+		}
 
 	@Override
 	public List<HistoryItem> getHistoryItems() {
