@@ -30,7 +30,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		
 		session.getTransaction().begin();
 		for (SoldItem soldItem : e.getItems()) {
-			soldItem.setHistoryItem(e);
+			//soldItem.setHistoryItem(e);
 			changeStockItemQuantity(soldItem);
 			session.save(soldItem);
 			
