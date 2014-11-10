@@ -44,39 +44,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         // XXX mock implementation
 		List<StockItem> dataset = new ArrayList();
 		dataset = session.createQuery("from StockItem").list();
-
-        StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
-        StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);
-        StockItem frankfurters = new StockItem(3l, "Frankfurters", "Beer sauseges", 15.0, 12);
-        StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0, 100);
-
-        dataset.add(chips);
-        dataset.add(chupaChups);
-        dataset.add(frankfurters);
-        dataset.add(beer);
-       
-        
-        //This one is not really necessary, initially we though that we have to save added items to 
-        //a file so that they would appear later on when relaunching the system
-        ObjectInputStream ois;
-        try {
-                ois = new ObjectInputStream(new FileInputStream("stockitems.data"));
-               
-                StockItem obj = null;
-                   while ((obj = (StockItem)ois.readObject()) != null) {
-                        dataset.add(obj);
-                    }
-                   ois.close();
-        } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        } catch (IOException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
-        }
        
         return dataset;
 }
