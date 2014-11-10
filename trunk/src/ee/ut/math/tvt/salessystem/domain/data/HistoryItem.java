@@ -54,6 +54,10 @@ public class HistoryItem implements DisplayableItem {
 	}
 
 
+	public HistoryItem() {
+		super();
+	}
+
 	public double getSum() {
 		return sum;
 	}

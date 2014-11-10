@@ -30,7 +30,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		
 		session.getTransaction().begin();
 		for (SoldItem soldItem : e.getItems()) {
-			//soldItem.setHistoryItem(e);
+			soldItem.setHistoryItem(e);
 			changeStockItemQuantity(soldItem);
 			session.save(soldItem);
 			
@@ -38,6 +38,15 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		session.save(e);
 		session.getTransaction().commit();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SoldItem> loadHistoryDetails() {
+	List<SoldItem> dataset = session.createQuery("from SoldItem").list();
+	return dataset;
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	public void changeStockItemQuantity(SoldItem soldItem) {

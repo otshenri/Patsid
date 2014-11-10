@@ -1,10 +1,13 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
+
 import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 
 /**
@@ -34,6 +37,13 @@ public class SalesSystemModel {
         warehouseTableModel = new StockTableModel();
         currentPurchaseTableModel = new PurchaseInfoTableModel();
         historyModel = new HistoryModel();
+        List<HistoryItem> hai =domainController.loadHistory();
+        for (HistoryItem historyItem : hai){
+        	historyModel.addItem(historyItem);
+        }
+        
+        
+        
      
         // populate stock model with data from the warehouse
         warehouseTableModel.populateWithData(domainController.loadWarehouseState());

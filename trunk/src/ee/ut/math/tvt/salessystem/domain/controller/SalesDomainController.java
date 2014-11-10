@@ -58,5 +58,7 @@ public interface SalesDomainController {
 
 	List<HistoryItem> loadHistory();
 
+	List<SoldItem> loadHistoryDetails();
+
     
 }

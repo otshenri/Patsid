@@ -15,13 +15,19 @@ public class SoldItem implements Cloneable, DisplayableItem {
      private Long id;
 	 
      // @ManyToOne
-     @ManyToOne(fetch = FetchType.EAGER)
-     @JoinColumn(name = "sale_id", nullable = false)
-     private HistoryItem historyItem2;
+
      
-     @ManyToOne
+     public SoldItem() {
+		super();
+	}
+
+	@ManyToOne
      @JoinColumn(name = "stockitem_id", nullable = true)
      private StockItem stockItem;
+     
+     @ManyToOne(fetch = FetchType.EAGER)
+     @JoinColumn(name = "sale_id", nullable = true)
+     private HistoryItem historyItem2;
      
      @Column(name = "name")
      private String name;
