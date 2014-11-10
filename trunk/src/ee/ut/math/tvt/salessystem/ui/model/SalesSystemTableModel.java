@@ -57,9 +57,9 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
 
     // search for item with the specified id
     public T getItemById(final long id) {
-    	System.out.println("???????????????????"+id);
+    	
         for (final T item : rows) {
-        	System.out.println("========="+item.getId());
+        	
             if (item.getId() == id)
                 return item;
         }
