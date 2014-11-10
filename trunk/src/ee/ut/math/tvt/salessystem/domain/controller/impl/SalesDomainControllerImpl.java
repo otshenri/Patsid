@@ -24,10 +24,38 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	private Session session = HibernateUtil.currentSession();
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
-		// Let's assume we have checked and found out that the buyer is underaged and
-		// cannot buy chupa-chups
-		//throw new VerificationFailedException("Underaged!");
-		// XXX - Save purchase
+
+	}
+	public void submitCurrentPurchase2(HistoryItem e) throws VerificationFailedException {
+		
+		session.getTransaction().begin();
+		for (SoldItem soldItem : e.getItems()) {
+			soldItem.setHistoryItem(e);
+			changeStockItemQuantity(soldItem);
+			session.save(soldItem);
+			
+		}
+		session.save(e);
+		session.getTransaction().commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void changeStockItemQuantity(SoldItem soldItem) {
+		long id_a = soldItem.getStockItem().getId();
+		List<Integer> b = session.createQuery(
+				"select quantity from StockItem where id ="
+						+ Long.toString(id_a)).list();
+		int difference = b.get(0) - soldItem.getQuantity();
+		session.createQuery(
+				"update StockItem set quantity = "
+						+ Integer.toString(difference) + " where id = "
+						+ Long.toString(id_a)).executeUpdate();
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<HistoryItem> loadHistory() {
+		List<HistoryItem> dataset = session.createQuery("from HistoryItem").list();
+		return dataset;
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				

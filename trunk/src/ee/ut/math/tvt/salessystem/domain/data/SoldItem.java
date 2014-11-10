@@ -9,20 +9,31 @@ import javax.persistence.*;
 @Entity
 @Table(name="SOLDITEM")
 public class SoldItem implements Cloneable, DisplayableItem {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-	@Column(name="STOCKITEM_ID", nullable= false)
-    private StockItem stockItem;
-	@Column(name = "name")
-    private String name;
-	@Column(name="quantity")
-    private Integer quantity;
-	@Column(name="imteprice")
-    private double price;
-    
-    
-    public SoldItem(StockItem stockItem, int quantity) {
+	 @Id
+     @Column(name = "id")
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Long id;
+	 
+     // @ManyToOne
+     @ManyToOne(fetch = FetchType.EAGER)
+     @JoinColumn(name = "sale_id", nullable = false)
+     private HistoryItem historyItem2;
+     
+     @ManyToOne
+     @JoinColumn(name = "stockitem_id", nullable = true)
+     private StockItem stockItem;
+     
+     @Column(name = "name")
+     private String name;
+     
+     @Column(name = "quantity")
+     private Integer quantity;
+
+     @Column(name = "itemprice")
+     private double price;
+
+
+	public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
@@ -30,10 +41,15 @@ public class SoldItem implements Cloneable, DisplayableItem {
         this.quantity = quantity;
         
     }
+	
+    public void setHistoryItem(HistoryItem historyItem) {
+		this.historyItem2 = historyItem;
+	}
+	
     
     
     public Long getId() {
-        return id;
+    	 return stockItem.getId();
     }
     
     public void setId(Long id) {

@@ -220,6 +220,12 @@ public class PurchaseTab extends PurchaseInfoTableModel{
 		  		}
 		  		HistoryItem hitem = new HistoryItem(summa, kloon );
 		  		model.getHistoryModel().addItem(hitem);
+		  		try {
+					model.getDomainController().submitCurrentPurchase2(hitem);
+				} catch (VerificationFailedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		  		//System.out.println(model.getCurrentPurchaseTableModel().solditems.size());
 		  		for (SoldItem item: model.getCurrentPurchaseTableModel().solditems){
 		  			

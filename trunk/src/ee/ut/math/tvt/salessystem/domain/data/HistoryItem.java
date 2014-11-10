@@ -10,12 +10,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
-
-public class HistoryItem implements DisplayableItem, Serializable {
+@Entity
+@Table(name = "HISTORYITEM")
+public class HistoryItem implements DisplayableItem {
 	
-	
-	private static final long serialVersionUID = 1L;
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,41 +22,37 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	private Date date0;
 	@Column(name = "total")
 	private double sum;
-	@OneToMany(mappedBy = "historyItem")
-	private List<SoldItem> items;
+
+	 @OneToMany(mappedBy = "historyItem2")
+     private List<SoldItem> purchase;
 	
+	@Transient
 	private int state;
+	@Transient
 	private static long nextId;
-	private DateFormat time;
-	private DateFormat date;
+
 
 	public void setItems(List<SoldItem> purchase) {
-		this.items = purchase;
+		this.purchase = purchase;
 	}
 
 	public List<SoldItem> getItems() {
-		return this.items;
+		return this.purchase;
 	}
 
 	public String getDate() {
-		
+		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		String s = date.format(date0);
 		return s;
 	}
-
-	public void setDate(DateFormat date) {
-		this.date = date;
-	}
+		
 
 	public String getTime() {
-		
+		DateFormat time = new SimpleDateFormat("hh:mm a");
 		String s = time.format(date0);
 		return s;
 	}
 
-	public void setTime(DateFormat time) {
-		this.time = time;
-	}
 
 	public double getSum() {
 		return sum;
@@ -82,11 +76,19 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	 */
 	public HistoryItem(double sum, List<SoldItem> purchase) {
 		this.id = nextId++;
-		this.time = new SimpleDateFormat("hh:mm a");
-		this.date = new SimpleDateFormat("dd-MM-yyyy");
 		this.date0 = Calendar.getInstance().getTime();
 		this.sum = sum;
-		this.items = purchase;
+		this.purchase = purchase;
+	}
+	
+	public HistoryItem(List<SoldItem> purchase) {
+		this.id = nextId++;
+		
+		this.date0 = Calendar.getInstance().getTime();
+		for (SoldItem soldItem : purchase) {
+			this.sum += soldItem.getSum();
+			}
+		this.purchase = purchase;
 	}
 
 	//kas neid vaja yldse praegu ?
