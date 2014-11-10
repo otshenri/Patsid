@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+
 
 public class HistoryItem implements DisplayableItem, Serializable {
 	
@@ -15,13 +17,20 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private static long nextId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@Column(name = "purchase_date")
+	private Date date0;
+	@Column(name = "total")
+	private double sum;
+	@OneToMany(mappedBy = "historyItem")
+	private List<SoldItem> items;
+	
+	private int state;
+	private static long nextId;
 	private DateFormat time;
 	private DateFormat date;
-	private double sum;
-	private List<SoldItem> items;
-	private int state;
 
 	public void setItems(List<SoldItem> purchase) {
 		this.items = purchase;
@@ -32,8 +41,8 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	}
 
 	public String getDate() {
-		Date time2 = Calendar.getInstance().getTime();
-		String s = date.format(time2);
+		
+		String s = date.format(date0);
 		return s;
 	}
 
@@ -42,8 +51,8 @@ public class HistoryItem implements DisplayableItem, Serializable {
 	}
 
 	public String getTime() {
-		Date time2 = Calendar.getInstance().getTime();
-		String s = time.format(time2);
+		
+		String s = time.format(date0);
 		return s;
 	}
 
@@ -75,6 +84,7 @@ public class HistoryItem implements DisplayableItem, Serializable {
 		this.id = nextId++;
 		this.time = new SimpleDateFormat("hh:mm a");
 		this.date = new SimpleDateFormat("dd-MM-yyyy");
+		this.date0 = Calendar.getInstance().getTime();
 		this.sum = sum;
 		this.items = purchase;
 	}

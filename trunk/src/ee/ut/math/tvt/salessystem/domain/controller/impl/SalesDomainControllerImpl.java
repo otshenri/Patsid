@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
@@ -18,6 +20,8 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
  * Implementation of the sales domain controller.
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
+	
+	private Session session = HibernateUtil.currentSession();
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
@@ -35,9 +39,10 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// XXX - Start new purchase
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<StockItem> loadWarehouseState() {
         // XXX mock implementation
-        List<StockItem> dataset = new ArrayList<StockItem>();
+		List<StockItem> dataset = session.createQuery("from StockItem").list();
 
         StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
         StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);

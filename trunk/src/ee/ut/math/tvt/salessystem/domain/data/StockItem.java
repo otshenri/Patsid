@@ -1,21 +1,32 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.*;
+
 
 /**
  * Stock item. Corresponds to the Data Transfer Object design pattern.
  */
+@Entity
+@Table(name="STOCKITEM")
 public class StockItem implements Cloneable, DisplayableItem, Serializable {
 	
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "price")
+	private double price;
+	@Column(name = "description")
+	private String description;
+	@Column(name = "quantity")
+	private int quantity;
+	@OneToMany(mappedBy = "stockItem")
+	private Set<SoldItem> soldItems;
 
-    private String name;
-
-    private double price;
-
-    private String description;
-    
-    private int quantity;
 
     /**
      * Constucts new <code>StockItem</code> with the specified values.
