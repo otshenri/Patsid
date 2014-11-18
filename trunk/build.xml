@@ -5,11 +5,13 @@
 
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
+	<property name="build.test.dir"       value="${build.dir}/test"/>
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${build.dir}/jar"/>
 	<property name="conf.dir" value="${basedir}/etc"/>
 	<property name="doc.dir" value="${build.dir}/doc"/>
 	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="test.dir"   value="${basedir}/test"/>
 	
 	<!-- database variables -->
 	<property name="data.dir"	value="${basedir}/data"/>
@@ -37,6 +39,7 @@
 		
 		<path id="test.classpath">
 			<pathelement location="${build.classes.dir}"/>
+			<pathelement path="${build.test.dir}/" />
 			<!-- configuration -->
 			<pathelement location="${conf.dir}"/>
 			<fileset dir="lib">
@@ -76,6 +79,7 @@
 	<target name="build" description="Build the system">
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${build.test.dir}"/>
 		<javac
             srcdir="${src.dir}"
             destdir="${build.classes.dir}"
@@ -90,6 +94,38 @@
 		</javac>
 
 	</target>
+	
+	<target name="build-tests" depends="build" description="Build the system">
+			<javac
+	            srcdir="${test.dir}"
+	            destdir="${build.test.dir}"
+	            debug="true"
+	            debuglevel="lines,vars,source"
+	            encoding="utf-8"
+	            compiler="modern"
+	            target="1.5"
+	            source="1.5"
+	        	classpathref="libs"
+	        >
+				<classpath>
+					<pathelement path="${build.classes.dir}" />
+				</classpath>
+			</javac>
+		</target>
+	
+	<target name="test" depends="build-tests" description="Run the template application">
+
+			<junit>
+				<classpath refid="test-classpath" />
+
+				<formatter type="brief" usefile="false" />
+				<batchtest>
+					<fileset dir="${build.test.dir}" includes="**/*.class" />
+				</batchtest>
+			</junit>
+
+
+		</target>
 	<!-- Clean up build system results -->
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}"/>
