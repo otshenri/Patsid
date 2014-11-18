@@ -29,13 +29,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void submitCurrentPurchase2(HistoryItem e) throws VerificationFailedException {
 		
 		session.getTransaction().begin();
+		session.save(e);
 		for (SoldItem soldItem : e.getItems()) {
 			soldItem.setHistoryItem(e);
 			changeStockItemQuantity(soldItem);
 			session.save(soldItem);
 			
 		}
-		session.save(e);
 		session.getTransaction().commit();
 	}
 	
