@@ -27,6 +27,7 @@
 	
 
 	<!-- Definitions of classpath variants used for different tasks -->
+		
 
 		<path id="compile.classpath">
 			<fileset dir="lib">
@@ -105,7 +106,7 @@
 	            compiler="modern"
 	            target="1.5"
 	            source="1.5"
-	        	classpathref="libs"
+	        	classpathref="test.classpath"
 	        >
 				<classpath>
 					<pathelement path="${build.classes.dir}" />
@@ -116,7 +117,7 @@
 	<target name="test" depends="build-tests" description="Run the template application">
 
 			<junit>
-				<classpath refid="test-classpath" />
+				<classpath refid="test.classpath" />
 
 				<formatter type="brief" usefile="false" />
 				<batchtest>
