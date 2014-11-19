@@ -1,10 +1,12 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
 /**
@@ -88,5 +90,21 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		}
 		return "lopp";
 		
+	}
+	
+	public double getSum() {
+		double sum = 0;
+		for (final SoldItem item : rows) {
+			sum += item.getSum();
+		}
+		return sum;
+	}
+	public int getQuantity(StockItem item) {
+		try {
+			SoldItem item2 = getItemById(item.getId());
+			return item2.getQuantity();
+		} catch (NoSuchElementException e) {
+			return 0;
+		}
 	}
 }
