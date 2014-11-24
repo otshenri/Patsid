@@ -1,0 +1,281 @@
+<project basedir="." name="AJPOS" default="build">
+	
+
+	<!-- Definitions of variables used during the rest of this script -->
+
+	<property name="build.dir" value="${basedir}/build"/>
+	<property name="build.classes.dir" value="${build.dir}/classes"/>
+	<property name="build.test.dir"       value="${build.dir}/test"/>
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="dist.dir" value="${build.dir}/jar"/>
+	<property name="conf.dir" value="${basedir}/etc"/>
+	<property name="doc.dir" value="${build.dir}/doc"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="test.dir"   value="${basedir}/test"/>
+	
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+	
+	<property file="application.properties"/>
+	<loadproperties>
+		<file file="application.properties"/>
+	</loadproperties>
+	
+
+	<!-- Definitions of classpath variants used for different tasks -->
+		
+
+		<path id="compile.classpath">
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+			  <fileset dir="${lib.hibernate.dir}">
+			             <include name="*.jar"/>
+			        </fileset>
+		</path>
+		
+		<path id="test.classpath">
+			<pathelement location="${build.classes.dir}"/>
+			<pathelement path="${build.test.dir}/" />
+			<!-- configuration -->
+			<pathelement location="${conf.dir}"/>
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+			<pathelement location="${basedir}"/>
+			<fileset dir="">
+				<include name="*.properties"/>
+			</fileset>
+			<fileset dir="${lib.hibernate.dir}">
+				             <include name="*.jar"/>
+				        </fileset>
+		</path>
+	
+	<path id="run.classpath">
+	        <pathelement location="${build.classes.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
+	</path>
+	<!-- Definitions of runnable ant targets.
+         Run them from the command line by executing "ant [targetname]"  -->
+
+	<target name="run" depends="build" description="Run the application">
+		
+		<java classname="ee.ut.math.tvt.PATS.Intro"  classpathref="test.classpath" fork="yes" />
+		
+		
+	</target>
+
+	<target name="build" description="Build the system">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${build.test.dir}"/>
+		<javac
+            srcdir="${src.dir}"
+            destdir="${build.classes.dir}"
+            debug="true"
+            debuglevel="lines,vars,source"
+            encoding="utf-8"
+            compiler="modern"
+            target="1.7"
+            source="1.7"
+			includeantruntime="false">
+			<classpath refid="compile.classpath"/>
+		</javac>
+
+	</target>
+	
+	<target name="build-tests" depends="build" description="Build the system">
+			<javac
+	            srcdir="${test.dir}"
+	            destdir="${build.test.dir}"
+	            debug="true"
+	            debuglevel="lines,vars,source"
+	            encoding="utf-8"
+	            compiler="modern"
+	            target="1.5"
+	            source="1.5"
+	        	classpathref="test.classpath"
+	        >
+				<classpath>
+					<pathelement path="${build.classes.dir}" />
+				</classpath>
+			</javac>
+		</target>
+	
+	<target name="test" depends="build-tests" description="Run the template application">
+
+			<junit>
+				<classpath refid="test.classpath" />
+
+				<formatter type="brief" usefile="false" />
+				<batchtest>
+					<fileset dir="${build.test.dir}" includes="**/*.class" />
+				</batchtest>
+			</junit>
+
+
+		</target>
+	<!-- Clean up build system results -->
+	<target name="clean" description="Clean up build system results">
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	
+	<!-- Create JAR file in the folder build/jar with all classes, 
+				two property files and other components -->
+		<target name="dist" depends="build" description="Build project to JAR">
+			<propertyfile
+				file="version.properties"
+				jdkproperties="true"
+				comment="Version properties">
+				<entry  key="build.revision.number" type="int" default="0" operation="+"/>
+				<entry  key="build.major.number" type="int" default="0" />
+				<entry  key="build.minor.number" type="int" default="0" />
+				</propertyfile>
+			<loadproperties>
+				<file file="version.properties"/>
+			</loadproperties>
+			<propertyfile 
+				file="version.properties"
+				jdkproperties="true">
+				<entry  key="build.number" type="string" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+			</propertyfile>
+			<mkdir dir="${dist.dir}"/>
+			<jar destfile="${dist.dir}/${team.name}.jar">
+				<fileset dir="${build.classes.dir}"/>
+				<fileset dir="${basedir}/" includes="*.properties"/>
+				<fileset dir="${conf.dir}"/>
+				<zipfileset includes="**/*.class" src="lib/log4j-1.2.17.jar"/>
+				<zipfileset includes="**/*.class" src="lib/jgoodies-common-1.4.0.jar"/>
+				<zipfileset includes="**/*.class" src="lib/jgoodies-looks-2.5.2.jar"/>
+				<manifest>
+					<attribute name="Main-Class" 
+						value="ee.ut.math.tvt.PATS.Intro"/>
+				</manifest>
+			</jar>
+		</target>
+		<target name="jrun" depends="dist" description="Builds and runs JAR file">
+			<java jar="${dist.dir}/${team.name}.jar" fork="yes"/>
+		</target>
+		
+	<!-- git macro -->
+		<macrodef name="git">
+			<attribute name="command" />
+			<attribute name="dir" default="" />
+			<element name="args" optional="true" />
+			<sequential>
+				<echo message="git @{command}" />
+					<exec executable="git" dir="@{dir}">
+					<arg value="@{command}" />
+					<args/>
+				</exec>
+			</sequential>
+		</macrodef>	
+		
+		<!-- Commits and pushes changes to git -->
+		<target name="git_commit" description="Commits and pushes all changes git">
+			<input message="Commit message" addproperty="commit-message" />
+			<input message="Github username" addproperty="git_user" />
+			<input message="Github password" addproperty="git_pass" />
+			
+			<echo message="Commiting all changes with message ${commit-message}" />
+			
+			<git command="add">
+				<args>
+					<arg value="-A" />
+				</args>
+			</git>
+			
+			<git command="commit">
+				<args>
+					<arg value="-am ${commit-message}" />
+				</args>
+			</git>
+			
+			<git command="push" >
+				<args>
+					<arg value="https://${git_user}:${git_pass}@github.com/otshenri/TEST.git"/>
+				</args>
+			</git>
+		</target>
+		
+		<!-- Pulls from git -->
+		<target name="git_pull" description="Pulls from git">
+			<git command="pull"/>
+		</target>	
+		
+		<!-- Creates tag to git -->
+		<target name="git_tag" description="Creates tag to git">
+			<input message="Tag name" addproperty="tag-name" />
+			<input message="Comment" addproperty="tag-comment" />
+			<input message="Github username" addproperty="git_user" />
+			<input message="Github password" addproperty="git_pass" />
+			
+			<echo message="Adding tag '${tag-name}'" />
+			
+			<git command="tag">
+				<args>
+					<arg value="-a" />
+					<arg value="${tag-name}" />
+					<arg value="-m ${tag-comment}" />
+				</args>
+			</git>
+			
+			<git command="push" >
+				<args>
+					<arg value="--tags" />
+					<arg value="https://${git_user}:${git_pass}@github.com/otshenri/TEST.git"/>
+				</args>
+			</git>
+		</target>
+	
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.PATS.Intro" classpathref="test.classpath" fork="yes">
+			<arg value="console" />
+		</java>
+	</target>
+	
+	<target name="debug" depends="build" description="Run the application and wait for remote debugger to connect.">
+	       <java
+	          	classname="ee.ut.math.tvt.PATS.Intro"
+	            classpathref="test.classpath"
+	            fork="yes">
+	        	<jvmarg value="-Xdebug" />
+	        	<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
+	    		</java>
+	        </target>
+	
+	<target name="dbmanager" description="Start the HSQLDB manager">
+	        <java
+	            classname="org.hsqldb.util.DatabaseManagerSwing"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="--user sa --url ${db.url}" />
+	        </java>
+	    </target>
+
+	    <target name="startdb" description="Start the HSQLDB with the default params">
+	        <java
+	            classname="org.hsqldb.Server"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+	        </java>
+	</target>
+
+
+</project>
