@@ -45,7 +45,10 @@ public class HistoryTab {
         return panel;
     }
 
-
+    public void refresh(){
+    	model.getPurchaseHistoryTableModel().populateWithData(model.getDc().getAllSales());
+    	model.getPurchaseHistoryTableModel().fireTableDataChanged();
+    }
 
     private Component drawHistoryGeneralTable() {
 
@@ -114,4 +117,3 @@ public class HistoryTab {
     }
 
 }
-

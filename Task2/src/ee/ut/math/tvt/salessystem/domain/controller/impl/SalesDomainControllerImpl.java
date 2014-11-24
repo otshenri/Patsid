@@ -1,5 +1,11 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.Client;
 import ee.ut.math.tvt.salessystem.domain.data.Sale;
@@ -7,11 +13,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
-import java.util.Date;
-import java.util.List;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Implementation of the sales domain controller.
@@ -63,21 +64,15 @@ public class SalesDomainControllerImpl implements SalesDomainController {
     private StockItem getStockItem(long id) {
         return (StockItem) session.get(StockItem.class, id);
     }
-
-
-    public void submitCurrentPurchase(List<SoldItem> soldItems, Client currentClient) {
-
+    //pmst nii peab see toimima mehettt.
+    //salesDomainController.registerSale(sale);
+    //public void submitCurrentPurchase(List<SoldItem> soldItems, Client currentClient) {
+    public void registerSale(Sale sale){
         // Begin transaction
         Transaction tx = session.beginTransaction();
-
-        // construct new sale object
-        Sale sale = new Sale(soldItems);
-        //sale.setId(null);
-        sale.setSellingTime(new Date());
-
-        // set client who made the sale
-        sale.setClient(currentClient);
-
+       
+        List<SoldItem> soldItems=sale.getSoldItems();
+        
         // Reduce quantities of stockItems in warehouse
         for (SoldItem item : soldItems) {
             // Associate with current sale
@@ -107,16 +102,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         log.info("Added new stockItem : " + stockItem);
     }
 
-
-    public void cancelCurrentPurchase() {
-        // XXX - Cancel current purchase
-        log.info("Current purchase canceled");
-    }
-
-    public void startNewPurchase() {
-        // XXX - Start new purchase
-        log.info("New purchase started");
-    }
 
 
 

@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class SalesSystemModel {
 
+	private SalesDomainController dc;
     // Warehouse model
     private StockTableModel warehouseTableModel;
 
@@ -29,7 +30,7 @@ public class SalesSystemModel {
      * @param domainController Sales domain controller.
      */
     public SalesSystemModel(SalesDomainController domainController) {
-
+    	dc=domainController;
         warehouseTableModel = new StockTableModel();
         currentPurchaseTableModel = new PurchaseInfoTableModel(this);
         purchaseHistoryTableModel = new PurchaseHistoryTableModel();
@@ -45,7 +46,6 @@ public class SalesSystemModel {
 
         List<Sale> sales = domainController.getAllSales();
         purchaseHistoryTableModel.populateWithData(sales);
-
     }
 
     public StockTableModel getWarehouseTableModel() {
@@ -76,5 +76,9 @@ public class SalesSystemModel {
     public void setSelectedClient(Client client) {
         this.selectedClient = client;
     }
+
+	public SalesDomainController getDc() {
+		return dc;
+	}
 
 }

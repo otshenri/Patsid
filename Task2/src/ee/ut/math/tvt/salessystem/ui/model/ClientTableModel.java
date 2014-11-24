@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ee.ut.math.tvt.salessystem.domain.data.Client;
-
+//ma asendan ta juba kõigis modelites ära siis
 /**
  * Client model.
  */

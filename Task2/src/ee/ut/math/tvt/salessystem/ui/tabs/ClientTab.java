@@ -35,7 +35,10 @@ public class ClientTab {
         return panel;
     }
 
-    
+    public void refresh(){
+    	model.getClientTableModel().populateWithData(model.getDc().getAllClients());
+    	model.getClientTableModel().fireTableDataChanged();
+    }
 
     
     private Component drawClientsTable() {
